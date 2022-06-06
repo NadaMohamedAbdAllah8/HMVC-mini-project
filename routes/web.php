@@ -17,5 +17,5 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::get('/', 'Customers\Http\Controllers\ProductController@index')
+Route::get('/', 'Admins\Http\Controllers\CategoryController@index')
     ->name('index');
