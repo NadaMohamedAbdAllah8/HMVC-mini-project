@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
  */
 
 Route::group(['namespace' => 'Customers\Http\Controllers',
-    'prefix' => config('customerRoute.prefix', config('mouduleRoutes.customerDefaultPrefix')), 'as' => 'customer.'], function () {
+    'prefix' => buildPrefix('customer')
+    //config('customerRoute.prefix', config('mouduleRoutes.customerDefaultPrefix'))
+    , 'as' => 'customer.'], function () {
     Route::get('/home', 'ProductController@index')->name('index');
 });

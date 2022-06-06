@@ -21,7 +21,9 @@ use Illuminate\Support\Facades\Route;
 //     ->name('index');
 
 Route::group(['namespace' => 'Admins\Http\Controllers',
-    'prefix' => config('adminRoute.prefix', config('mouduleRoutes.adminDefaultPrefix')), 'as' => 'admin.'], function () {
+    'prefix' => buildPrefix('admin')
+    //config('adminRoute.prefix', config('mouduleRoutes.adminDefaultPrefix'))
+    , 'as' => 'admin.'], function () {
     Route::get('/home',
         'CategoryController@index')
         ->name('index');
