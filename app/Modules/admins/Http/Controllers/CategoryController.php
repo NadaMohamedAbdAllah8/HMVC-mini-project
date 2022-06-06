@@ -15,7 +15,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        dd('hello from admin cat controller');
+        return view('admins::categories.index');
+
+        //dd('hello from admin cat controller');
         // $categories = Category::paginate(config('global.defaultPagination'));
 
         // $data = [
