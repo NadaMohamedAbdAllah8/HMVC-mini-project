@@ -26,7 +26,7 @@ class CustomerProvider extends ServiceProvider
     {
         $directory_separator = DIRECTORY_SEPARATOR;
 
-        config(['route' => File::getRequire(
+        config(['customerRoute' => File::getRequire(
             __DIR__ . $directory_separator .
             '..' . $directory_separator . 'config' . $directory_separator . 'routes.php'
         )]);

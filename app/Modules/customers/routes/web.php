@@ -13,11 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 Route::group(['namespace' => 'Customers\Http\Controllers',
-    'prefix' => config('route.prefix'), 'as' => 'customer.'], function () {
+    'prefix' => config('customerRoute.prefix', config('mouduleRoutes.customerDefaultPrefix')), 'as' => 'customer.'], function () {
     Route::get('/home', 'ProductController@index')->name('index');
 });

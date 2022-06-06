@@ -13,15 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-// Route::get('/home-supplier', 'Suppliers\Http\Controllers\ProductController@index')
-//     ->name('index');
-
 Route::group(['namespace' => 'Suppliers\Http\Controllers',
-    'prefix' => config('route.prefix'), 'as' => 'supplier.'], function () {
+    'prefix' => config('supplierRoute.prefix', config('mouduleRoutes.supplierDefaultPrefix')), 'as' => 'supplier.'], function () {
     Route::get('/home', 'ProductController@index')
         ->name('index');
 });
