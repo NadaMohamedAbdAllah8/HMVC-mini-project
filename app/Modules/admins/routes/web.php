@@ -13,16 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-// Route::get('/home-admin', 'Admins\Http\Controllers\CategoryController@index')
-//     ->name('index');
-
 Route::group(['namespace' => 'Admins\Http\Controllers',
     'prefix' => buildPrefix('admin')
-    //config('adminRoute.prefix', config('mouduleRoutes.adminDefaultPrefix'))
     , 'as' => 'admin.'], function () {
     Route::get('/home',
         'CategoryController@index')

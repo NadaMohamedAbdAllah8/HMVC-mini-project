@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['namespace' => 'Suppliers\Http\Controllers',
     'prefix' => buildPrefix('supplier')
-    //config('supplierRoute.prefix', config('mouduleRoutes.supplierDefaultPrefix'))
     , 'as' => 'supplier.'], function () {
     Route::get('/home', 'ProductController@index')
         ->name('index');
