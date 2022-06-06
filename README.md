@@ -1,0 +1,1 @@
+Following the tutuorial in this playlist: https://www.youtube.com/playlist?list=PLYp_Kd32Xvcq1JlJlhWmUQ_JOkP4C7Cir, to create a mini-project using Hierarchical Model-View-Controller architecture pattern
