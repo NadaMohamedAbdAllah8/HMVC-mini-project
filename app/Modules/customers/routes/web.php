@@ -17,5 +17,9 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::get('/home-customer', 'Customers\Http\Controllers\ProductController@index')
-    ->name('index');
+Route::group(['namespace' => 'Customers\Http\Controllers',
+    'prefix' => 'customer', 'as' => 'customer.'], function () {
+    Route::get('/home',
+        'ProductController@index')
+        ->name('index');
+});

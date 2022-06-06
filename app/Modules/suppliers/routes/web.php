@@ -17,5 +17,12 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::get('/home-supplier', 'Suppliers\Http\Controllers\ProductController@index')
-    ->name('index');
+// Route::get('/home-supplier', 'Suppliers\Http\Controllers\ProductController@index')
+//     ->name('index');
+
+Route::group(['namespace' => 'Suppliers\Http\Controllers',
+    'prefix' => 'supplier', 'as' => 'supplier.'], function () {
+    Route::get('/home',
+        'ProductController@index')
+        ->name('index');
+});

@@ -17,5 +17,12 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::get('/home-admin', 'Admins\Http\Controllers\CategoryController@index')
-    ->name('index');
+// Route::get('/home-admin', 'Admins\Http\Controllers\CategoryController@index')
+//     ->name('index');
+
+Route::group(['namespace' => 'Admins\Http\Controllers',
+    'prefix' => 'admin', 'as' => 'admin.'], function () {
+    Route::get('/home',
+        'CategoryController@index')
+        ->name('index');
+});
