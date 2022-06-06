@@ -21,8 +21,7 @@ use Illuminate\Support\Facades\Route;
 //     ->name('index');
 
 Route::group(['namespace' => 'Suppliers\Http\Controllers',
-    'prefix' => 'supplier', 'as' => 'supplier.'], function () {
-    Route::get('/home',
-        'ProductController@index')
+    'prefix' => config('route.prefix'), 'as' => 'supplier.'], function () {
+    Route::get('/home', 'ProductController@index')
         ->name('index');
 });

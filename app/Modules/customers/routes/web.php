@@ -18,8 +18,6 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::group(['namespace' => 'Customers\Http\Controllers',
-    'prefix' => 'customer', 'as' => 'customer.'], function () {
-    Route::get('/home',
-        'ProductController@index')
-        ->name('index');
+    'prefix' => config('route.prefix'), 'as' => 'customer.'], function () {
+    Route::get('/home', 'ProductController@index')->name('index');
 });
