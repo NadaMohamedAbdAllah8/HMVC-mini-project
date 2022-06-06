@@ -38,5 +38,8 @@ class AdminProvider extends ServiceProvider
 
         $this->loadViewsFrom
             (__DIR__ . $ds . '..' . $ds . 'resources' . $ds . 'views', $moduleName);
+
+        $this->loadMigrationsFrom(__DIR__ . $ds .
+            '..' . $ds . 'database' . $ds . 'migrations');
     }
 }
