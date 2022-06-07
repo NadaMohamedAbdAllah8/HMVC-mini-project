@@ -24,9 +24,8 @@ class CustomerProvider extends ServiceProvider
      */
     public function boot()
     {
-        //$moduleName = 'customers';
         $moduleName = basename(dirname(__DIR__, 1));
-        // dd($moduleName);
+
         config([$moduleName => File::getRequire(loadConfig($moduleName, 'routes.php'))]);
         $this->loadRoutesFrom(loadRoutePath($moduleName, 'web.php'));
         $this->loadViewsFrom(loadViewsPath($moduleName), $moduleName);
