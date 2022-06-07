@@ -2,7 +2,6 @@
 
 namespace Admins\Http\Controllers;
 
-use Admins\Http\Requests\StoreCategory;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -14,11 +13,11 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(StoreCategory $request)
+    public function index()
     {
-        return view('admins::categories.index');
 
-        //dd('hello from admin cat controller');
+        return view('admins::pages.categories.index');
+
         // $categories = Category::paginate(config('global.defaultPagination'));
 
         // $data = [
