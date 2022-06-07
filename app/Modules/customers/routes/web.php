@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::group(['namespace' => 'Customers\Http\Controllers',
+Route::group(['middleware' => 'customer', 'namespace' => 'Customers\Http\Controllers',
     'prefix' => buildPrefix('customer'), 'as' => 'customer.'], function () {
     Route::get('/home', 'ProductController@index')->name('index');
 });
