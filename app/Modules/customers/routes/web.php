@@ -13,7 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::group(['middleware' => 'customer', 'namespace' => 'Customers\Http\Controllers',
+$moduleName = basename(dirname(__DIR__, 1));
+
+Route::group(['middleware' => 'customer', 'namespace' => buildNamespace($moduleName),
     'prefix' => buildPrefix('customer'), 'as' => 'customer.'], function () {
     Route::get('/home', 'ProductController@index')->name('index');
 });

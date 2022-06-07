@@ -12,9 +12,9 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
  */
+$moduleName = basename(dirname(__DIR__, 1));
 
-Route::group(['namespace' => 'Suppliers\Http\Controllers',
-    'prefix' => buildPrefix('supplier')
+Route::group(['namespace' => buildNamespace($moduleName), 'prefix' => buildPrefix('supplier')
     , 'as' => 'supplier.'], function () {
     Route::get('/home', 'ProductController@index')
         ->name('index');

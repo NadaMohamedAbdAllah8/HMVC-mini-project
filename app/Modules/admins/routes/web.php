@@ -12,9 +12,9 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
  */
+$moduleName = basename(dirname(__DIR__, 1));
 
-Route::group(['namespace' => 'Admins\Http\Controllers',
-    'prefix' => buildPrefix('admin')
+Route::group(['namespace' => buildNamespace($moduleName), 'prefix' => buildPrefix('admin')
     , 'as' => 'admin.'], function () {
     Route::get('/home',
         'CategoryController@index')
