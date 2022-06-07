@@ -20,15 +20,6 @@ class Admin
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        ///dd('from the Admin middleware');
-        // dd('is admin guard?' . Auth::guard('admin')->check());
-        // // dd(Auth::guard($guard));
-
-        // if (!Auth::guard('admin')->check()) {
-        //     dd('not admin');
-        //     return route('admin.home');
-        // }
-        // dd($next($request));
         return $next($request);
     }
 

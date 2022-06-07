@@ -15,7 +15,17 @@ use Illuminate\Support\Facades\Route;
 
 $moduleName = basename(dirname(__DIR__, 1));
 
-Route::group(['middleware' => 'customer', 'namespace' => buildNamespace($moduleName),
+Route::group(['namespace' => buildNamespace($moduleName),
     'prefix' => buildPrefix('customer'), 'as' => 'customer.'], function () {
-    Route::get('/home', 'ProductController@index')->name('index');
+    //Route::get('/home', 'ProductController@index')->name('index');
+
+    Route::get('home', function () {
+        return view('customers::pages.auth.login');
+    })->name('home');
+
+    Route::post('login', 'AuthController@login')
+        ->name('login');
+
+    Route::middleware('customer')->resource('product', 'ProductController');
+
 });
