@@ -16,6 +16,13 @@ $moduleName = basename(dirname(__DIR__, 1));
 
 Route::group(['namespace' => buildNamespace($moduleName), 'prefix' => buildPrefix('supplier')
     , 'as' => 'supplier.'], function () {
-    Route::get('/home', 'ProductController@index')
-        ->name('index');
+    Route::get('home', function () {
+        return view('suppliers::pages.auth.login');
+    })->name('home');
+
+    Route::post('login', 'AuthController@login')
+        ->name('login');
+
+    Route::middleware('supplier')->resource('product', 'ProductController');
+
 });

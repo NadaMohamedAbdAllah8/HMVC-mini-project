@@ -1,5 +1,7 @@
 <?php
 
+use Suppliers\Models\Supplier;
+
 return [
 
     /*
@@ -41,13 +43,17 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins',
+        ],
         'customer' => [
             'driver' => 'session',
             'provider' => 'customers',
         ],
-        'admin' => [
+        'supplier' => [
             'driver' => 'session',
-            'provider' => 'admins',
+            'provider' => 'suppliers',
         ],
     ],
 
@@ -80,6 +86,10 @@ return [
         'customers' => [
             'driver' => 'eloquent',
             'model' => Customers\Models\Customer::class,
+        ],
+        'suppliers' => [
+            'driver' => 'eloquent',
+            'model' => Suppliers\Models\Supplier::class,
         ],
     ],
 

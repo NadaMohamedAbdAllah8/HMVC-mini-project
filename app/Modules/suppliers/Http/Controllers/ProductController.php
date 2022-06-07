@@ -15,7 +15,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('suppliers::products.index');
+        return view('suppliers::pages.products.index');
 
         dd('Helle from the product controller insde the suppliers\' controllers !');
         // $products = Product::where('category_id', '!=', null)
