@@ -2,6 +2,7 @@
 
 namespace Admins\Http\Controllers;
 
+use Admins\Http\Requests\StoreCategory;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -13,7 +14,7 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(StoreCategory $request)
     {
         return view('admins::categories.index');
 
