@@ -9,6 +9,8 @@ class Supplier extends Model
 {
     use HasFactory;
 
+    protected $guard = 'supplier';
+
     /**
      * The attributes that are mass assignable.
      *
