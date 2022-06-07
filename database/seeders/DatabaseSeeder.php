@@ -14,5 +14,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call('Customers\Database\Seeders\CustomerSeeder');
+        $this->call('Admins\Database\Seeders\AdminSeeder');
+        $this->call('Suppliers\Database\Seeders\SupplierSeeder');
+
     }
 }
