@@ -16,7 +16,14 @@ $moduleName = basename(dirname(__DIR__, 1));
 
 Route::group(['namespace' => buildNamespace($moduleName), 'prefix' => buildPrefix('admin')
     , 'as' => 'admin.'], function () {
-    Route::get('/home',
-        'CategoryController@index')
-        ->name('index');
+
+    Route::get('home', function () {
+        return view('admins::pages.auth.login');
+    })->name('home');
+
+    Route::post('login', 'AuthController@login')
+        ->name('login');
+
+    Route::middleware('admin')->resource('category', 'CategoryController');
+
 });
