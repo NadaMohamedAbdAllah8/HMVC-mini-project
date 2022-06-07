@@ -41,5 +41,9 @@ class AdminProvider extends ServiceProvider
 
         $this->loadMigrationsFrom(__DIR__ . $ds .
             '..' . $ds . 'database' . $ds . 'migrations');
+
+        $this->loadTranslationsFrom(__DIR__ . $ds .
+            '..' . $ds . 'resources' . $ds . 'lang', $moduleName);
+
     }
 }

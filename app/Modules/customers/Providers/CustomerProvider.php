@@ -36,9 +36,14 @@ class CustomerProvider extends ServiceProvider
             '..' . $ds . 'routes' . $ds . 'web.php');
 
         $this->loadViewsFrom
-            (__DIR__ . $ds . '..' . $ds . 'resources' . $ds . 'views', $moduleName);
+            (__DIR__ . $ds . '..' . $ds . 'resources' .
+            $ds . 'views', $moduleName);
 
         $this->loadMigrationsFrom(__DIR__ . $ds .
             '..' . $ds . 'database' . $ds . 'migrations');
+
+        $this->loadTranslationsFrom(__DIR__ . $ds .
+            '..' . $ds . 'resources' . $ds . 'lang', $moduleName);
+
     }
 }
