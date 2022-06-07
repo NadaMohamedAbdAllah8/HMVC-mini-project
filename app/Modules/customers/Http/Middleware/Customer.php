@@ -16,7 +16,7 @@ class Customer
      */
     public function handle(Request $request, Closure $next)
     {
-        dd('from the customer middleware');
+        //dd('from the customer middleware');
         return $next($request);
     }
 }

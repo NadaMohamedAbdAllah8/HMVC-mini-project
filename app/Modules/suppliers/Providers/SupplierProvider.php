@@ -24,26 +24,12 @@ class SupplierProvider extends ServiceProvider
      */
     public function boot()
     {
-        $ds = DIRECTORY_SEPARATOR;
-
-        $moduleName = 'suppliers';
-
-        config(['supplierRoute' => File::getRequire(
-            __DIR__ . $ds .
-            '..' . $ds . 'config' . $ds . 'routes.php'
-        )]);
-
-        $this->loadRoutesFrom(__DIR__ . $ds .
-            '..' . $ds . 'routes' . $ds . 'web.php');
-
-        $this->loadViewsFrom
-            (__DIR__ . $ds . '..' . $ds . 'resources' . $ds . 'views', $moduleName);
-
-        $this->loadMigrationsFrom(__DIR__ . $ds .
-            '..' . $ds . 'database' . $ds . 'migrations');
-
-        $this->loadTranslationsFrom(__DIR__ . $ds .
-            '..' . $ds . 'resources' . $ds . 'lang', $moduleName);
+        $moduleName = basename(dirname(__DIR__, 1));
+        config([$moduleName => File::getRequire(loadConfig($moduleName, 'routes.php'))]);
+        $this->loadRoutesFrom(loadRoutePath($moduleName, 'web.php'));
+        $this->loadViewsFrom(loadViewsPath($moduleName), $moduleName);
+        $this->loadMigrationsFrom(loadMigrationsPath($moduleName));
+        $this->loadTranslationsFrom(loadTranslationsPath($moduleName), $moduleName);
 
     }
 }
