@@ -23,8 +23,8 @@ class Admin extends Middleware
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        echo '$guard=' . $guard . '<br/>';
-        echo 'in handle() admins middleware admin<br/>';
+        // echo '$guard=' . $guard . '<br/>';
+        //echo 'in handle() admins middleware admin<br/>';
         //dd('hi');
         //echo $guard[0] . '<br/>';
         // dd($request->hasSession());
