@@ -24,6 +24,10 @@ Route::group(['namespace' => buildNamespace($moduleName), 'prefix' => buildPrefi
     Route::post('login', 'AuthController@login')
         ->name('login');
 
-    Route::middleware('admin')->resource('category', 'CategoryController');
+    // Route::middleware('admin:admin')->get('logout', 'AuthController@logout')
+    //     ->name('logout');
+
+    Route::resource('category', 'CategoryController')
+        ->middleware(['admin:admin']);
 
 });
