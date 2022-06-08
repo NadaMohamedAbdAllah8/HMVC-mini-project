@@ -4,6 +4,7 @@ namespace Admins\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Image;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -15,17 +16,17 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        $categories =
+        Category::all();
+        // Category::paginate(config('global.defaultPagination'));
 
-        return view('admins::pages.categories.index');
+        $data = [
+            'title' => 'Categories',
+            'categories' => $categories,
+            'message' => 'Hello-this is the component message',
+        ];
 
-        // $categories = Category::paginate(config('global.defaultPagination'));
-
-        // $data = [
-        //     'title' => 'Categories',
-        //     'categories' => $categories,
-        //     'message' => 'Hello!'];
-
-        // return view('admin.pages.categories.index', $data);
+        return view('admins::pages.categories.index', $data);
     }
 
     /**
@@ -39,7 +40,7 @@ class CategoryController extends Controller
             'title' => 'Create New Category',
         ];
 
-        return view('admin.pages.categories.create', $data);
+        return view('admins::pages.categories.create', $data);
     }
 
     /**
@@ -52,10 +53,20 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            //  'image' => 'size:2024',
         ]);
 
         try {
-            Category::create($request->all());
+            // create category
+            $category = Category::create(['name' => $request->name]);
+
+            // if an image was uploaded
+            if ($request->hasFile('image')) {
+                // upload the image
+                $image = $request->file('image');
+
+                $this->addImage($image, $category->id, 'App\Models\Category', 'categories');
+            }
 
             return redirect()->route('admin.category.index')
                 ->with('success', 'Successfully Added');
@@ -74,18 +85,14 @@ class CategoryController extends Controller
     public function show($id)
     {
         try {
-            // Get products table pagiantion if it is set
-            $pagiantionValue = $_GET['pagination'] ?? config('global.defaultPagination');
-
             $category = Category::findOrFail($id);
 
             $data = [
                 'title' => 'Category Details',
                 'category' => $category,
-                'products' => $category->products()->paginate($pagiantionValue),
             ];
 
-            return view('admin.pages.categories.show', $data);
+            return view('admins::pages.categories.show', $data);
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Error ' . $e->getMessage());
         }
@@ -104,7 +111,7 @@ class CategoryController extends Controller
                 'category' => Category::findOrFail($id),
             ];
 
-            return view('admin.pages.categories.edit', $data);
+            return view('admins::pages.categories.edit', $data);
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Error ' . $e->getMessage());
         }
@@ -126,7 +133,18 @@ class CategoryController extends Controller
         try {
             $category = Category::findOrFail($id);
 
-            $category->update($request->all());
+            $category->update(['name' => $request->name]);
+
+            // if an image was uploaded
+            if ($request->hasFile('image')) {
+                // delete the image
+                $this->deleteImage($category->id, 'App\Models\Category');
+
+                // upload the image
+                $image = $request->file('image');
+
+                $this->addImage($image, $category->id, 'App\Models\Category', 'categories');
+            }
 
             return redirect()->route('admin.category.index')
                 ->with('success', 'Successfully Updated');
@@ -146,6 +164,9 @@ class CategoryController extends Controller
         try {
             $category = Category::findOrFail($id);
 
+            // delete the image
+            $this->deleteImage($category->id, 'App\Models\Category');
+
             $category->delete();
 
             return redirect()->route('admin.category.index')
@@ -153,6 +174,52 @@ class CategoryController extends Controller
         } catch (\Exception $e) {
             return redirect()->route('admin.category.index')
                 ->with('error', 'Error ' . $e->getMessage());
+        }
+    }
+
+    // addImage
+    public function addImage($image, $imageable_id, $imageable_type, $folderParent)
+    {
+        try {
+            // upload the image
+            $name = $image->getClientOriginalName();
+
+            $filePath = $folderParent . '/' . $imageable_id . '/';
+
+            $destinationPath = public_path($filePath);
+
+            $image->move($destinationPath, $name);
+
+            // create new record in image table
+
+            $image = Image::create([
+                'file_path' => $filePath . $name,
+                'imageable_id' => $imageable_id,
+                'imageable_type' => $imageable_type,
+            ]);
+
+            return $image->id;
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    public function deleteImage($imageable_id, $imageable_type)
+    {
+        try {
+            $image = Image::where(['imageable_id' => $imageable_id,
+                'imageable_type' => $imageable_type])->first();
+
+            if (!is_null($image)) {
+                if (\File::exists($image->file_path)) {
+                    \File::delete($image->file_path);
+                    $image->delete();
+                }
+            }
+            return true;
+        } catch (\Exception $e) {
+            return false;
         }
     }
 }
