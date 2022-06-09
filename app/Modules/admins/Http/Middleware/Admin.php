@@ -20,7 +20,7 @@ class Admin extends Middleware
     {
         if (!Auth::guard($guard)->check()) {
             // dd('returning');
-            return redirect('admin/login')->with('error', 'No customer guard');
+            return redirect('admin/login')->with('error', 'No admin guard');
         }
 
         return $next($request);
