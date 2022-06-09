@@ -30,7 +30,7 @@
         No images
         @endif
 
-        <a href="{{route('supplier.product.index')}}" class="btn btn-primary actionbtn">
+        <a href="{{route('customer.product.index')}}" class="btn btn-primary actionbtn">
             Back
         </a>
 

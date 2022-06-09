@@ -24,12 +24,12 @@ class ProductController extends Controller
         $products = Product::all();
 
         $data = [
-            'title' => 'Products',
+            'title' => 'Customers Products',
             'products' => $products,
             'message' => 'Hello-this is the component message',
         ];
 
-        return view('suppliers::pages.products.index', $data);
+        return view('customers::pages.products.index', $data);
     }
 
     /**
@@ -48,7 +48,7 @@ class ProductController extends Controller
                 'product' => $product,
             ];
 
-            return view('suppliers::pages.products.show', $data);
+            return view('customers::pages.products.show', $data);
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Error ' . $e->getMessage());
         }
