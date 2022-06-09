@@ -71,7 +71,7 @@ class CategoryController extends Controller
             return redirect()->route('admin.category.index')
                 ->with('success', 'Successfully Added');
 
-        } catch (\Exception $e) {dd($e->getMessage());
+        } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Error ' . $e->getMessage());
         }
     }
@@ -196,7 +196,7 @@ class CategoryController extends Controller
             'image.max' => 'Image size has to be under 2M',
 
         ];
-        //dd($customMessages);
+
         $this->validate($request, $rules, $customMessages);
     }
 }
