@@ -19,10 +19,9 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        // Product::paginate(config('global.defaultPagination'));
 
         $data = [
-            'title' => 'Categories',
+            'title' => 'Products',
             'products' => $products,
             'message' => 'Hello-this is the component message',
         ];
@@ -95,6 +94,7 @@ class ProductController extends Controller
             return redirect()->back()->with('error', 'Error ' . $e->getMessage());
         }
     }
+
     /**
      * Show the form for editing the specified resource.
      *
