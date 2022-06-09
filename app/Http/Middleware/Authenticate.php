@@ -25,7 +25,7 @@ class Authenticate extends Middleware
      */
     public function handle($request, Closure $next, ...$guards)
     {
-        //dd(Auth::guard('admin')->check());
+        dd(Auth::guard('admin')->check());
 
         $this->guards = $guards;
 
