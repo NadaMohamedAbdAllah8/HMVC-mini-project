@@ -52,12 +52,10 @@ class CategoryController extends Controller
      */
     public function store(Request $request, StoreImageAction $storeImageAction)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            //  'image' => 'size:2024',
-        ]);
+        $this->validateInfo($request);
 
         try {
+
             // create category
             $category = Category::create(['name' => $request->name]);
 
@@ -73,7 +71,7 @@ class CategoryController extends Controller
             return redirect()->route('admin.category.index')
                 ->with('success', 'Successfully Added');
 
-        } catch (\Exception $e) {
+        } catch (\Exception $e) {dd($e->getMessage());
             return redirect()->back()->with('error', 'Error ' . $e->getMessage());
         }
     }
@@ -129,9 +127,7 @@ class CategoryController extends Controller
     public function update(Request $request, $id, StoreImageAction $storeImageAction,
         RemoveImageAction $removeImageAction) {
 
-        $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
+        $this->validateInfo($request);
 
         try {
             $category = Category::findOrFail($id);
@@ -182,5 +178,25 @@ class CategoryController extends Controller
             return redirect()->route('admin.category.index')
                 ->with('error', 'Error ' . $e->getMessage());
         }
+    }
+
+    private function validateInfo(Request $request)
+    {
+        $rules = [
+            'name' => 'required|string|max:255',
+            'image' => 'image|max:2024',
+        ];
+
+        $customMessages = [
+            'name.required' => 'Add name',
+            'name.string' => 'Name has to be a string',
+            'name.max' => 'Name max size is 255',
+
+            'image.image' => 'Add a valid image',
+            'image.max' => 'Image size has to be under 2M',
+
+        ];
+        //dd($customMessages);
+        $this->validate($request, $rules, $customMessages);
     }
 }
