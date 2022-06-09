@@ -26,6 +26,10 @@ Route::group(['namespace' => buildNamespace($moduleName),
     Route::post('login', 'AuthController@login')
         ->name('login');
 
-    Route::middleware('customer')->resource('product', 'ProductController');
+    Route::group(['middleware' => 'customer:customer'], function () {
+        Route::get('', 'ProductController@index')->name('product.index');
+
+        Route::get('show/{id}', 'ProductController@show')->name('product.show');
+    });
 
 });
