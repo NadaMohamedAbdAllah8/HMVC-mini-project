@@ -25,11 +25,9 @@ class Authenticate extends Middleware
      */
     public function handle($request, Closure $next, ...$guards)
     {
-        dd(Auth::guard('admin')->check());
+        echo ('app auth handle<br>');
 
         $this->guards = $guards;
-
-        echo 'handle';
 
         return parent::handle($request, $next, ...$guards);
     }
@@ -42,13 +40,12 @@ class Authenticate extends Middleware
      */
     protected function redirectTo($request)
     {
-        dd('redirectTo auth app ');
-        //  dd(session()->all());
+        echo reset($this->guards);
+        dd('app auth redirectTo<br>');
 
         if (!$request->expectsJson()) {
-            echo ('reset($this->guards) === admin is ' . reset($this->guards) === 'admin');
-            if (reset($this->guards) === 'admin') {
-                return route('admin.home');
+            if (reset($this->guards) === 'customer') {
+                return route('customer.login');
             }
 
         }
