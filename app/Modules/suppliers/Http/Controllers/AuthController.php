@@ -34,4 +34,15 @@ class AuthController extends Controller
             return back()->with('error', 'Bad credentials');
         }
     }
+
+    public function logout(Request $request)
+    {
+        Auth::guard('supplier')->logout();
+
+        $request->session()->flush();
+
+        $request->session()->regenerate();
+
+        return redirect('/supplier/login')->with('success', 'Logged Out Successfully');
+    }
 }
