@@ -3,10 +3,11 @@
 namespace Suppliers\Http\Middleware;
 
 use Closure;
+use Illuminate\Auth\Middleware\Authenticate as Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class Supplier
+class Supplier extends Middleware
 {
     /**
      * @var array
@@ -21,6 +22,11 @@ class Supplier
      */
     public function handle($request, Closure $next, $guard = null)
     {
+        //dd('hi');
+        if ($guard !== 'supplier') {
+            return redirect('/supplier/home');
+        }
+
         return $next($request);
     }
 
