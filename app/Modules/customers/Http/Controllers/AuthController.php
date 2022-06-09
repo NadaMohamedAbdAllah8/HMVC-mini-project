@@ -7,6 +7,7 @@ use Customers\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
@@ -28,11 +29,50 @@ class AuthController extends Controller
         // Login
         if (Auth::guard('customer')->attempt(['name' => request('name'),
             'password' => request('password')])) {
-            return redirect()->route('customer.product.index')
-                ->with('success', 'Logged In Successfully');
+
+            //dd($request);
+
+            if (session_status() === PHP_SESSION_NONE) {
+                echo ('no session');
+                session_start();
+            }
+
+            // Request instance
+            //  $request->session()->put('customer_name', $customer->name);
+
+            // global session helper
+            session(['customer_name' => $customer->name]);
+            Session::put('mytest', 'session is working-set in the login function');
+
+            // echo 'req session  ' . $request->session()->get('customer_name');
+
+            echo '<br>';
+
+            echo 'global session  ' . session('customer_name');
+
+            // dd('stop');
+
+            if (Auth::guard('customer')->check()) {
+                return redirect()->route('customer.product.index')
+                    ->with('success', 'Logged In Successfully');
+            } else {
+                return redirect('customer.login')
+                    ->with('error', 'Guard is not customer');
+            }
 
         } else {
             return back()->with('error', 'Bad credentials');
         }
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::guard('customer')->logout();
+
+        $request->session()->flush();
+
+        $request->session()->regenerate();
+
+        return redirect('/customer/login')->with('success', 'Logged Out Successfully');
     }
 }
