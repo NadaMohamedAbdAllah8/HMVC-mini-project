@@ -28,7 +28,8 @@ Route::group(['namespace' => buildNamespace($moduleName), 'prefix' => buildPrefi
         ->name('logout');
 
     Route::resource('category', 'CategoryController')
-    //->middleware(['admin:admin'])
-        ->middleware('web');
+        ->middleware(['admin:admin'])
+    //  ->middleware('web')
+    ;
 
 });
