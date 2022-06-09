@@ -17,15 +17,15 @@ $moduleName = basename(dirname(__DIR__, 1));
 Route::group(['namespace' => buildNamespace($moduleName), 'prefix' => buildPrefix('admin')
     , 'as' => 'admin.'], function () {
 
-    Route::get('home', function () {
+    Route::get('login', function () {
         return view('admins::pages.auth.login');
-    })->name('home');
+    })->name('login');
 
-    Route::post('login', 'AuthController@login')
-        ->name('login');
+    Route::post('post.login', 'AuthController@login')
+        ->name('post.login');
 
-    // Route::middleware('admin:admin')->get('logout', 'AuthController@logout')
-    //     ->name('logout');
+    Route::middleware('admin:admin')->get('logout', 'AuthController@logout')
+        ->name('logout');
 
     Route::resource('category', 'CategoryController')
     //->middleware(['admin:admin'])
