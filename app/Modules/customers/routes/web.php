@@ -19,14 +19,17 @@ Route::group(['namespace' => buildNamespace($moduleName),
     'prefix' => buildPrefix('customer'), 'as' => 'customer.'], function () {
     //Route::get('/home', 'ProductController@index')->name('index');
 
-    Route::get('home', function () {
+    Route::get('login', function () {
         return view('customers::pages.auth.login');
-    })->name('home');
+    })->name('login');
 
-    Route::post('login', 'AuthController@login')
-        ->name('login');
+    Route::post('post.login', 'AuthController@login')
+        ->name('post.login');
 
     Route::group(['middleware' => 'customer:customer'], function () {
+        Route::get('logout', 'AuthController@logout')
+            ->name('logout');
+
         Route::get('', 'ProductController@index')->name('product.index');
 
         Route::get('show/{id}', 'ProductController@show')->name('product.show');

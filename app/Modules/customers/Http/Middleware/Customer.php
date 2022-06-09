@@ -8,10 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class Customer
 {
-    /**
-     * @var array
-     */
-    protected $guards = [];
+
     /**
      * Handle an incoming request.
      *
@@ -19,26 +16,13 @@ class Customer
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle($request, Closure $next, $guard = null)
+    public function handle($request, Closure $next, $guard = 'customer')
     {
-        return $next($request);
-    }
-
-    /**
-     * Get the path the user should be redirected to when they are not authenticated.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return string|null
-     */
-    protected function redirectTo($request)
-    {
-        if (!$request->expectsJson()) {
-
-            if (reset($this->guards) === 'customer') {
-                return route('customer.home');
-            }
-
-            return route('/');
+        if (!Auth::guard($guard)->check()) {
+            // dd('returning');
+            return redirect('customer/login')->with('error', 'No customer guard');
         }
+
+        return $next($request);
     }
 }
