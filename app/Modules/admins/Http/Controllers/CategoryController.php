@@ -2,9 +2,10 @@
 
 namespace Admins\Http\Controllers;
 
+use App\Actions\RemoveImageAction;
+use App\Actions\StoreImageAction;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\Models\Image;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -49,7 +50,7 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, StoreImageAction $storeImageAction)
     {
         $request->validate([
             'name' => 'required|string|max:255',
@@ -65,7 +66,8 @@ class CategoryController extends Controller
                 // upload the image
                 $image = $request->file('image');
 
-                $this->addImage($image, $category->id, 'App\Models\Category', 'categories');
+                $storeImageAction->handle($image, $category->id,
+                    'App\Models\Category', 'categories');
             }
 
             return redirect()->route('admin.category.index')
@@ -124,8 +126,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id, StoreImageAction $storeImageAction,
+        RemoveImageAction $removeImageAction) {
+
         $request->validate([
             'name' => 'required|string|max:255',
         ]);
@@ -138,12 +141,11 @@ class CategoryController extends Controller
             // if an image was uploaded
             if ($request->hasFile('image')) {
                 // delete the image
-                $this->deleteImage($category->id, 'App\Models\Category');
+                $removeImageAction->handle($category->id, 'App\Models\Category');
 
-                // upload the image
-                $image = $request->file('image');
-
-                $this->addImage($image, $category->id, 'App\Models\Category', 'categories');
+                // upload, and save the image
+                $storeImageAction->handle($request->file('image'), $category->id,
+                    'App\Models\Category', 'categories');
             }
 
             return redirect()->route('admin.category.index')
@@ -159,67 +161,26 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, RemoveImageAction $removeImageAction)
     {
         try {
             $category = Category::findOrFail($id);
 
             // delete the image
-            $this->deleteImage($category->id, 'App\Models\Category');
+            $imageRemoved = $removeImageAction->handle($category->id, 'App\Models\Category');
 
             $category->delete();
+
+            if (!$imageRemoved) {
+                return redirect()->route('admin.category.index')
+                    ->with('notification', 'Category deleted, image not removed');
+            }
 
             return redirect()->route('admin.category.index')
                 ->with('success', 'Successfully Deleted');
         } catch (\Exception $e) {
             return redirect()->route('admin.category.index')
                 ->with('error', 'Error ' . $e->getMessage());
-        }
-    }
-
-    // addImage
-    public function addImage($image, $imageable_id, $imageable_type, $folderParent)
-    {
-        try {
-            // upload the image
-            $name = $image->getClientOriginalName();
-
-            $filePath = $folderParent . '/' . $imageable_id . '/';
-
-            $destinationPath = public_path($filePath);
-
-            $image->move($destinationPath, $name);
-
-            // create new record in image table
-
-            $image = Image::create([
-                'file_path' => $filePath . $name,
-                'imageable_id' => $imageable_id,
-                'imageable_type' => $imageable_type,
-            ]);
-
-            return $image->id;
-            return true;
-        } catch (\Exception $e) {
-            return false;
-        }
-    }
-
-    public function deleteImage($imageable_id, $imageable_type)
-    {
-        try {
-            $image = Image::where(['imageable_id' => $imageable_id,
-                'imageable_type' => $imageable_type])->first();
-
-            if (!is_null($image)) {
-                if (\File::exists($image->file_path)) {
-                    \File::delete($image->file_path);
-                    $image->delete();
-                }
-            }
-            return true;
-        } catch (\Exception $e) {
-            return false;
         }
     }
 }
