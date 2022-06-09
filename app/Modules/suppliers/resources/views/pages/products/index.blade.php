@@ -19,10 +19,14 @@
 
 <br />
 
+<?if(str_contains(\Request::route()->getName(),'customer'))
+$customer=true;
+else $customer=false;?>
+@if(!$customer)
 <a href="{{ route('supplier.product.create')}}" class="btn btn-primary actionbtn" style="width:20%">
     Create Product
 </a>
-
+@endif
 
 <div class="container">
     <div class="card">
@@ -46,7 +50,7 @@
 
                             <a href="{{ route('supplier.product.show',$product->id)}}" title="Show" class="">
                                 Show</a>
-
+                            @if(!$customer)
                             <a href="{{ route('supplier.product.edit',
                              $product->id)}}" title="Edit" class="">
                                 Edit</a>
@@ -59,6 +63,7 @@
                                     onclick="return confirm('Are you sure?')"> Delete
                                 </button>
                             </form>
+                            @endif
                         </td>
                     </tr>
                     @endforeach

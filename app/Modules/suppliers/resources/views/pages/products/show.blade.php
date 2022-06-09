@@ -29,7 +29,9 @@
         @else
         No images
         @endif
-        <a href="{{ route('supplier.product.index')}}" class="btn btn-primary actionbtn">
+        {{--
+        <?echo url()->previous();?> --}}
+        <a href="{{url()->previous();}}" class="btn btn-primary actionbtn">
             Back
         </a>
 
