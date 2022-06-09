@@ -23,6 +23,6 @@ Route::group(['namespace' => buildNamespace($moduleName), 'prefix' => buildPrefi
     Route::post('login', 'AuthController@login')
         ->name('login');
 
-    Route::middleware('supplier:supplier')->resource('product', 'ProductController');
+    Route::middleware('web')->resource('product', 'ProductController');
 
 });
