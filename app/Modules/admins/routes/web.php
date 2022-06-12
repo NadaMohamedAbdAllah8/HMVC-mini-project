@@ -29,7 +29,7 @@ Route::group(['namespace' => buildNamespace($moduleName), 'prefix' => buildPrefi
 
     Route::resource('category', 'CategoryController')
         ->middleware(['admin:admin'])
-    //  ->middleware('web')
+    //    ->middleware('web') 
     ;
 
 });

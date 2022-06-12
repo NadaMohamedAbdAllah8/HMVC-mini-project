@@ -17,6 +17,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        //dd(Auth::check());
+
         $categories =
         Category::all();
         // Category::paginate(config('global.defaultPagination'));

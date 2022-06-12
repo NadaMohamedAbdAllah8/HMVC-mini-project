@@ -4,7 +4,6 @@ namespace Admins\Http\Controllers;
 
 use Admins\Models\Admin;
 use App\Http\Controllers\Controller;
-use Barryvdh\Debugbar\Facades\Debugbar as Debugbar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -13,7 +12,7 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        //   dd('admin auth login');
+        // dd('admin auth login');
 
         $fields = $request->validate([
             'name' => 'required|string',
@@ -31,13 +30,11 @@ class AuthController extends Controller
         // Login
         //   dd(Auth::guard('admin')->attempt(['name' => request('name'),
         //     'password' => request('password')]));
-        if (Auth::guard('admin')->attempt(['name' => request('name'),
-            'password' => request('password')])) {
-
-            Debugbar::info(Auth::guard('admin')->check());
-
-            //echo ('in auth cont ' . Auth::guard('admin')->check());
-            // dd(session()->all());
+        $loggedIn = Auth::guard('admin')->attempt(['name' => request('name'),
+            'password' => request('password')]);
+        if ($loggedIn) {
+            //echo ('in auth controller ' . Auth::guard('admin')->check());
+            // dd(Auth::guard('admin')->check());
 
             return redirect()->route('admin.category.index')
                 ->with('success', 'Logged In Successfully');
@@ -50,6 +47,7 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        //dd('logout');
         Auth::guard('admin')->logout();
 
         $request->session()->flush();
