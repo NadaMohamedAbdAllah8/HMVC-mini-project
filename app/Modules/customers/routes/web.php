@@ -16,7 +16,8 @@ use Illuminate\Support\Facades\Route;
 $moduleName = basename(dirname(__DIR__, 1));
 
 Route::group(['namespace' => buildNamespace($moduleName),
-    'prefix' => buildPrefix('customer'), 'as' => 'customer.'], function () {
+    'prefix' => buildPrefix('customer'), 'as' => 'customer.'
+    , 'middleware' => 'web'], function () {
     //Route::get('/home', 'ProductController@index')->name('index');
 
     Route::get('login', function () {

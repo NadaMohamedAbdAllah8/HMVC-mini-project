@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 $moduleName = basename(dirname(__DIR__, 1));
 
 Route::group(['namespace' => buildNamespace($moduleName), 'prefix' => buildPrefix('admin')
-    , 'as' => 'admin.'], function () {
+    , 'as' => 'admin.', 'middleware' => 'web'], function () {
 
     Route::get('login', function () {
         return view('admins::pages.auth.login');
@@ -29,7 +29,7 @@ Route::group(['namespace' => buildNamespace($moduleName), 'prefix' => buildPrefi
 
     Route::resource('category', 'CategoryController')
         ->middleware(['admin:admin'])
-    //    ->middleware('web') 
+    //    ->middleware('web')
     ;
 
 });

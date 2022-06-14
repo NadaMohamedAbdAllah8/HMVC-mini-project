@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 $moduleName = basename(dirname(__DIR__, 1));
 
 Route::group(['namespace' => buildNamespace($moduleName), 'prefix' => buildPrefix('supplier')
-    , 'as' => 'supplier.'], function () {
+    , 'as' => 'supplier.', 'middleware' => 'web'], function () {
     Route::get('login', function () {
         return view('suppliers::pages.auth.login');
     })->name('login');
