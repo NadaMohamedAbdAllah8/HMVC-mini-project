@@ -19,7 +19,6 @@ class Supplier extends Middleware
     public function handle($request, Closure $next, $guard = 'supplier')
     {
         if (!Auth::guard($guard)->check()) {
-            // dd('returning');
             return redirect('supplier/login')->with('error', 'No supplier guard');
         }
 

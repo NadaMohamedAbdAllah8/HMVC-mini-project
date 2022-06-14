@@ -30,36 +30,8 @@ class AuthController extends Controller
         if (Auth::guard('customer')->attempt(['name' => request('name'),
             'password' => request('password')])) {
 
-            //dd($request);
-
-            if (session_status() === PHP_SESSION_NONE) {
-                echo ('no session');
-                session_start();
-            }
-
-            // Request instance
-            //  $request->session()->put('customer_name', $customer->name);
-
-            // global session helper
-            session(['customer_name' => $customer->name]);
-            Session::put('mytest', 'session is working-set in the login function');
-
-            // echo 'req session  ' . $request->session()->get('customer_name');
-
-            echo '<br>';
-
-            echo 'global session  ' . session('customer_name');
-
-            // dd('stop');
-
-            if (Auth::guard('customer')->check()) {
-                return redirect()->route('customer.product.index')
-                    ->with('success', 'Logged In Successfully');
-            } else {
-                return redirect('customer.login')
-                    ->with('error', 'Guard is not customer');
-            }
-
+            return redirect()->route('customer.product.index')
+                ->with('success', 'Logged In Successfully');
         } else {
             return back()->with('error', 'Bad credentials');
         }

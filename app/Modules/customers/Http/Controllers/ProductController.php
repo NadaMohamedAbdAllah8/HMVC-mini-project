@@ -4,7 +4,6 @@ namespace Customers\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
-use Illuminate\Support\Facades\Session;
 
 class ProductController extends Controller
 {
@@ -27,9 +26,6 @@ class ProductController extends Controller
             'products' => $products,
             'message' => 'Hello-this is the component message-customer product index',
         ];
-
-        //   Session::put('mytest', 'session is working set in the product index');
-        echo '<br>' . Session::get('mytest') . '<br>';
 
         return view('customers::pages.products.index', $data);
     }

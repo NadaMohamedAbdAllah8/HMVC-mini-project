@@ -19,12 +19,7 @@ class Admin
      */
     public function handle(Request $request, Closure $next, $guard)
     {
-        // echo 'In admin middleware handle<br/>';
-        // echo 'guard sent parameter=' . ($guard) . '<br/>';
-        // echo 'Is admin?' . (Auth::guard($guard)->check()) . '-<br/>';
-
-        if (!Auth::guard($guard)->check()) {
-            //dd('going to admin login');
+               if (!Auth::guard($guard)->check()) {
             return redirect('/admin/login');
         }
 

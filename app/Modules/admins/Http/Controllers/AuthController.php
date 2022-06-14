@@ -12,8 +12,6 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        // dd('admin auth login');
-
         $fields = $request->validate([
             'name' => 'required|string',
             'password' => 'required|string',
@@ -28,26 +26,21 @@ class AuthController extends Controller
         }
 
         // Login
-        //   dd(Auth::guard('admin')->attempt(['name' => request('name'),
-        //     'password' => request('password')]));
-        $loggedIn = Auth::guard('admin')->attempt(['name' => request('name'),
+         $loggedIn = Auth::guard('admin')->attempt(['name' => request('name'),
             'password' => request('password')]);
         if ($loggedIn) {
-            //echo ('in auth controller ' . Auth::guard('admin')->check());
-            // dd(Auth::guard('admin')->check());
-
+           
             return redirect()->route('admin.category.index')
                 ->with('success', 'Logged In Successfully');
 
         } else {
-            dd('not logged in');
-            return back()->with('error', 'Bad credentials');
+                       return back()->with('error', 'Bad credentials');
         }
     }
 
     public function logout(Request $request)
     {
-        //dd('logout');
+       
         Auth::guard('admin')->logout();
 
         $request->session()->flush();

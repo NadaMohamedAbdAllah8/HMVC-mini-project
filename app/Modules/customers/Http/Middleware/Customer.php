@@ -19,8 +19,7 @@ class Customer
     public function handle($request, Closure $next, $guard = 'customer')
     {
         if (!Auth::guard($guard)->check()) {
-            // dd('returning');
-            return redirect('customer/login')->with('error', 'No customer guard');
+                      return redirect('customer/login')->with('error', 'No customer guard');
         }
 
         return $next($request);
